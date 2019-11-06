@@ -1,0 +1,9 @@
+Main()
+{
+  print "hellp word"
+}
+method()
+{
+   print" my is a"
+
+}
