@@ -1,1 +1,2 @@
-this is my job
+spring:
+  cloud: this is ok... get it
