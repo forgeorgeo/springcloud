@@ -1,0 +1,29 @@
+server:
+  port: 7000
+#服务名字
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+#git 仓库的地址
+          uri: https://github.com/forgeorgeo/springcloud.git
+          search-paths:  #下层目录的话        esarch-paths:  
+          label: master
+#git 仓库的账号密码
+          username: 466786065@qq.com 
+          password: java362430
+#是否需要权限拉去，默认是true,如果不false就不允许你去拉取配置中心Server更新的内容 
+  management:
+    security:
+      enabled: false
+#加入注册中心，实现高可用
+eureka:
+  client:
+    service-url:
+       defaultZone: http://localhost:8001/eureka/
+       
+
+       

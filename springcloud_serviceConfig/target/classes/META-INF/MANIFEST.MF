@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: springcloud_serviceConfig
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: wang
+Implementation-Vendor-Id: com.itcast
+Build-Jdk: 1.8.0_112
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/springcloud_serviceConfig
+Created-By: Maven Integration for Eclipse
+

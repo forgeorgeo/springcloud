@@ -1,0 +1,5 @@
+server:
+  port: 9400
+spring:
+  application:
+    name: zipkin-server

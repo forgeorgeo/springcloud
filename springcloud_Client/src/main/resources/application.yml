@@ -1,0 +1,11 @@
+management:
+  endpoint:
+    refresh:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - info
+          - health
+          - refresh

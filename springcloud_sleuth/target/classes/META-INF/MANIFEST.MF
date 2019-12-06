@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: springcloud_sleuth
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: wang
+Implementation-Vendor-Id: cn.demo
+Build-Jdk: 1.8.0_112
+Implementation-URL: http://projects.spring.io/spring-boot/springcloud_
+ sleuth/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
