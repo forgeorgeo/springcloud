@@ -1,0 +1,49 @@
+{
+  "groups": [
+    {
+      "name": "com.mqtt",
+      "type": "com.road.quzhibathhousemqtt.config.MqttConfig",
+      "sourceType": "com.road.quzhibathhousemqtt.config.MqttConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "com.mqtt.client-id",
+      "type": "java.lang.String",
+      "sourceType": "com.road.quzhibathhousemqtt.config.MqttConfig"
+    },
+    {
+      "name": "com.mqtt.host",
+      "type": "java.lang.String",
+      "sourceType": "com.road.quzhibathhousemqtt.config.MqttConfig"
+    },
+    {
+      "name": "com.mqtt.keep-alive-interval",
+      "type": "java.lang.Integer",
+      "sourceType": "com.road.quzhibathhousemqtt.config.MqttConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "com.mqtt.password",
+      "type": "java.lang.String",
+      "sourceType": "com.road.quzhibathhousemqtt.config.MqttConfig"
+    },
+    {
+      "name": "com.mqtt.timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.road.quzhibathhousemqtt.config.MqttConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "com.mqtt.topic",
+      "type": "java.lang.String",
+      "sourceType": "com.road.quzhibathhousemqtt.config.MqttConfig"
+    },
+    {
+      "name": "com.mqtt.username",
+      "type": "java.lang.String",
+      "sourceType": "com.road.quzhibathhousemqtt.config.MqttConfig"
+    }
+  ],
+  "hints": []
+}

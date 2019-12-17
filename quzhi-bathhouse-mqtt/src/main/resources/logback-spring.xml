@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration >
+
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <!--展示的配置-->
+        <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
+            <!--&lt;!&ndash;格式&ndash;&gt;-->
+            <!--<pattern>-->
+                <!--%d - %msg%n-->
+            <!--</pattern>-->
+
+        <!--</layout>-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>
+                %d %-5p %c{2} %m%n
+            </pattern>
+
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--输出的info日志文件-->
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志过滤-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+
+            <level>
+                ERROR
+            </level>
+            <!--匹配就禁止-->
+            <onMatch>DENY</onMatch>
+            <!--否则就输出-->
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <!--输出格式-->
+        <encoder>
+            <pattern>
+                %d %-5p %c{2} %m%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--滚动策略 按照时间-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--路径-->
+            <fileNamePattern>
+                ${LOG_PATH}/tomcat/bathhouse-mqtt/info.%d.log
+            </fileNamePattern>
+            <!--  保留30天日志 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+
+    <!--输出的error日志文件-->
+    <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <!--只拦截-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!--只要error级别的日志-->
+            <level>
+                ERROR
+            </level>
+        </filter>
+        <encoder>
+            <pattern>
+                %d - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--滚动策略 按照时间-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--路径-->
+            <fileNamePattern>
+                ${LOG_PATH}/tomcat/bathhouse-mqtt/error.%d.log
+            </fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.road.quzhibathhousemqtt.dao" level="DEBUG" />
+
+    <!--日志级别和用在哪？-->
+    <root level="info">
+
+        <!--控制台的输出-->
+        <appender-ref ref="consoleLog"/>
+        <!--输出到info日志文件-->
+        <appender-ref ref="fileInfoLog"/>
+        <!--输出到error日志文件-->
+        <appender-ref ref="fileErrorLog"/>
+        <!--输出到数据库-->
+        <!--<appender-ref ref="projectLog"/>-->
+    </root>
+
+
+</configuration>

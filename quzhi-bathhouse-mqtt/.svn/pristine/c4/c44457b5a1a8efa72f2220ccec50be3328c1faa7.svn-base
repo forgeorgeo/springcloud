@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road.quzhibathhousemqtt.dao.BathroomCollectDevDao">
+
+
+
+    <!-- 根据小类查询费率 -->
+    <select id="getBathroomCollect" resultType="com.road.quzhibathhousemqtt.entity.BathroomCollectDev">
+		SELECT
+		  c.id,
+		  c.collectName,
+		  c.bathroomId,
+		  c.prjid projectId,
+		  c.sncode,
+		  c.areaId,
+		  c.status,
+		  c.version,
+		  c.isSoftDelete,
+		  b.bathroomName
+		FROM tbathroomcollectdev c
+		INNER JOIN tbathroom b ON b.bathroomId = c.bathroomId
+		WHERE c.prjid = #{projectId} and c.sncode = #{sncode} and  c.isSoftDelete != 1
+		LIMIT 1
+	</select>
+
+
+
+</mapper>

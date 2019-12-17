@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road.quzhibathhousemqtt.dao.DeviceDao">
+
+
+    <!-- 更新集中器设备状态 -->
+    <update id="updateDeviceStatus">
+        UPDATE tbathroomcollectdev
+        SET status = #{status}
+        WHERE sncode = #{addr}
+    </update>
+
+    <!-- 获取通讯密码 -->
+    <select id="getCommPassword" resultType="String">
+		SELECT SysControlPwd FROM tprjinfo WHERE PrjID = #{projectId}
+	</select>
+
+    <!-- 更新设备异常状态 -->
+    <update id="updateDeviceStatu">
+		UPDATE tdevice_${projectId}
+		SET bathDevStatus = #{waterState}
+		WHERE DevID = #{deviceId}
+	</update>
+
+    <!-- 查询集中控制器状态-->
+    <select id="queryDevStatus" parameterType="String" resultType="Map">
+		SELECT status FROM tbathroomcollectdev WHERE sncode = #{addr}
+	</select>
+
+    <!-- 更新某集中控制器下所有水表状态-->
+    <update id="updateConcentratorWaterStatus" >
+		UPDATE tbathroomrwater_${projectId} set status=#{waterStatus} WHERE sncode=#{addr}
+	</update>
+
+    <select id="getListByStatus" resultType="com.road.quzhibathhousemqtt.entity.BathWater">
+        SELECT
+            waterid,prjid projectId, devid deviceId,sncode snCode,waterno waterNo,  waterName,areaId,
+            status,updt,isbooking,lastorderstardt,lastorderstopdt,createtime,remark,isdelete
+        from tbathroomrwater_${projectId} where  isdelete = 0 and status = #{status}
+    </select>
+
+    <!-- 获取澡堂设备信息 -->
+    <select id="getDeviceInfo" resultType="com.road.quzhibathhousemqtt.entity.DeviceInfo">
+        SELECT
+            DevID deviceId,areaId,DevName name, DevDescript descript,DevTypeID deviceType,isUse,
+            devTypeStatus typeStatus,bathroomId,bathDevStatus, waterNo
+        from tdevice_${projectId}
+        where devTypeStatus = 3 and bathroomId=#{bathroomId} and  waterNo=#{waterNo}
+        LIMIT 1
+    </select>
+
+
+	<!-- 获取澡堂设备信息 -->
+	<select id="getDeviceInfoById" resultType="com.road.quzhibathhousemqtt.entity.DeviceInfo">
+        SELECT
+            DevID deviceId,areaId,DevName name, DevDescript descript,DevTypeID deviceType,isUse,
+            devTypeStatus typeStatus,bathroomId,bathDevStatus, waterNo
+        from tdevice_${projectId}
+        where devTypeStatus = 3 and DevID=#{deviceId}  and DevStatusID=0
+        LIMIT 1
+    </select>
+
+
+	<!-- 绑定设备 -->
+    <insert id="createDeviceInfo" parameterType="com.road.quzhibathhousemqtt.entity.DeviceInfo">
+		INSERT INTO `tdevice_${projectId}`
+		(AreaID,DevName,DevDescript,DevTypeID,devTypeStatus,bathroomid,waterno)
+		 VALUE(#{areaId},#{name},#{descript},#{deviceType},#{typeStatus},#{bathroomId},#{waterNo});
+	</insert>
+
+    <!-- 修改设备总表项目ID 和 deviceId -->
+    <update id="updateDeviceInfo"  parameterType="com.road.quzhibathhousemqtt.entity.DeviceInfo">
+		UPDATE  `tdevice_${projectId}`
+		set AreaID=#{areaId} , DevName=#{name},DevDescript=#{descript},
+		DevTypeID=#{deviceType},devTypeStatus=#{typeStatus}
+		 WHERE bathroomid = #{bathroomId} and waterno = #{waterNo}
+	</update>
+
+    <!-- 总表注册设备 -->
+    <insert id="createDeviceAll" >
+		INSERT INTO tdeviceallapp
+		(macOne,macTwo,WXDeviecID,PrjID,DevID,devTypeStatus)
+		 VALUE(#{macOne},#{macTwo},0,#{projectId},#{deviceId},#{typeStatus});
+	</insert>
+
+    <!-- 修改设备总表项目ID 和 deviceId -->
+    <update id="updateDeviceAll" >
+		UPDATE tdeviceallapp
+		set PrjID=#{projectId} , DevID=#{deviceId}
+		 WHERE macOne = #{macOne} and macTwo = #{macTwo}
+	</update>
+
+
+    <!-- 修改设备总表项目ID 和 deviceId -->
+    <update id="deleteDevice"  >
+		UPDATE  `tdevice_${projectId}`
+		set waterno = 0 ,DevStatusID = 6
+		 WHERE DevID=#{deviceId}
+	</update>
+</mapper>

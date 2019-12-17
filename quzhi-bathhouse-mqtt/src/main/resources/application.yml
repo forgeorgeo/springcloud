@@ -1,0 +1,44 @@
+spring:
+  profiles:
+    active: dev
+# 连接池配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 2
+    minIdle: 10
+    maxActive: 50
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    druid:
+      test-on-borrow: true
+      test-while-idle: true
+  redis:
+    jedis:
+      pool:
+        max-idle: 300
+        max-active: 600
+        max-wait: 1000ms
+
+server:
+  servlet:
+    context-path: /MQTTService
+
+
+# 公共配置与profiles选择无关
+mybatis:
+  typeAliasesPackage: com.road.quzhibathhousemqtt.entity
+  mapperLocations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+# 日志配置
+logging:
+  path: /Users/mac/workspace
+  level:
+    com.road.quzhibathhousemqtt.dao: info

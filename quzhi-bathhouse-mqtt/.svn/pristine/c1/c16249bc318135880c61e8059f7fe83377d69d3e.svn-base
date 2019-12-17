@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road.quzhibathhousemqtt.dao.WithholdingMoneyDao">
+
+
+
+    <!-- 获取预扣金额 -->
+    <select id="getWithholdingMoney" resultType="com.road.quzhibathhousemqtt.entity.WithholdingMoney">
+		SELECT
+		  PrjID projectId,
+		  DevBigTypeID deviceBigTypeId,
+		  DevBigTypeName deviceBigTypeName,
+		  YkMoney money
+		FROM tprjykmoney
+		WHERE   PrjID = #{projectId} and DevBigTypeID = #{deviceBigTypeId}  limit 1
+	</select>
+
+
+
+</mapper>

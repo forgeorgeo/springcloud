@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: qzuser
+    password: Road26460430@
+    url: jdbc:mysql://120.79.82.191:3309/nocardjssystem?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&serverTimezone=UTC&autoReconnect=true
+  redis:
+    host: 120.79.82.191
+    port: 6379
+    password: Lysb_TestRedis!2019
+
+
+
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road.quzhibathhousemqtt.dao.BathCmdDao">
+
+
+    <!-- 更新设备处理命令返回结果-->
+    <update id="updateCmdResult" parameterType="com.road.quzhibathhousemqtt.entity.BathCmd">
+		UPDATE `tbathcmdlist` SET
+			dealtype = #{dealtype},
+			dealcmdrlt=#{dealcmdrlt},
+			errcode=#{errcode}
+		WHERE recid=#{recid}
+	</update>
+
+	<update id="updateCmdTimeOutStatus" parameterType="com.road.quzhibathhousemqtt.entity.BathCmd">
+			UPDATE `tbathcmdlist` SET
+			dealtype = #{dealtype},
+			dealcmdrlt=#{dealcmdrlt}
+		WHERE recid=#{recid} and  dealtype = 2
+	</update>
+
+
+
+
+</mapper>

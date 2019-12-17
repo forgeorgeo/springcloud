@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road.quzhibathhousemqtt.dao.DeviceDao">
+
+
+    <!-- 更新集中器设备状态 -->
+    <update id="updateDeviceStatus">
+        UPDATE tbathroomrdevice
+        SET status = #{status}
+        WHERE sncode = #{addr}
+    </update>
+
+    <!-- 获取通讯密码 -->
+    <select id="getCommPassword" resultType="String">
+		SELECT SysControlPwd FROM tprjinfo WHERE PrjID = #{projectId}
+	</select>
+
+    <!-- 更新设备异常状态 -->
+    <update id="updateDeviceFail">
+		UPDATE tbathroomrwater_${projectId}
+		SET status = #{waterState}
+		WHERE waterno = #{waterId} AND sncode = #{addr}
+	</update>
+
+    <!-- 查询集中控制器状态-->
+    <select id="queryDevStatus" parameterType="String" resultType="Map">
+		SELECT status FROM tbathroomrdevice WHERE sncode = #{addr}
+	</select>
+
+    <!-- 更新某集中控制器下所有水表状态-->
+    <update id="updateConcentratorWaterStatus" >
+		UPDATE tbathroomrwater_${projectId} set status=#{waterStatus} WHERE sncode=#{addr}
+	</update>
+
+    <select id="getListByStatus" resultType="com.road.quzhibathhousemqtt.entity.BathWater">
+        SELECT
+            waterid,prjid projectId, devid deviceId,sncode snCode,waterno waterNo, waterName,areaId,
+            status,updt,isbooking,lastorderstardt,lastorderstopdt,createtime,remark,isdelete
+        from tbathroomrwater_${projectId} and isdelete = 0 and status = #{status}
+    </select>
+
+</mapper>

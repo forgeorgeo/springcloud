@@ -1,0 +1,10 @@
+#mq配置
+com:
+  mqtt:
+    host: tcp://120.79.82.191:1883
+    clientId: bathhouse-service
+    topics: replyCmd_clientCMD-1,hearBeat_clientCMD-1,login_clientCMD-1,orderStart_clientCMD-1,orderEnd_clientCMD-2,queryOrder_clientCMD-1,reportErrorStatus_clientCMD-1
+    username: service-client
+    password: service-client
+    timeout: 10
+    keepAliveInterval: 20

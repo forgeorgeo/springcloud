@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road.quzhibathhousemqtt.dao.OrderDao">
+
+
+    <!-- 更新设备处理命令返回结果-->
+    <insert id="saveOrderStartData" parameterType="com.road.quzhibathhousemqtt.dto.OrderStartDTO">
+		INSERT INTO `tconsumedata_${projectId}`
+		(ConsumeDT,AccID,DevID,isbath,bathdevid)
+		 VALUE(#{orderId},#{accountId},#{waterId},1,#{deviceId});
+	</insert>
+
+
+    <!-- 更新设备处理命令返回结果-->
+    <insert id="saveOrderStartDataOperator" parameterType="com.road.quzhibathhousemqtt.dto.OrderStartDTO">
+		INSERT INTO `tconsumedata_op`
+		(ConsumeDT,OPID,DevID,isbath,bathdevid)
+		 VALUE(#{orderId},#{accountId},#{waterId},1,#{deviceId});
+	</insert>
+
+
+    <!-- 订单开始（6A）更新预约表状态 -->
+    <update id="updateBathBookingStatus" parameterType="com.road.quzhibathhousemqtt.dto.OrderStartDTO">
+		UPDATE tbathbooking_${projectId}
+		set status=#{bookStatus}
+		WHERE accid=#{accountId} AND  status = -1 and orderid = #{itemId}
+	</update>
+
+
+    <!-- 订单开始（6A）更新预约表状态为使用中 -->
+    <update id="updateBathBookingStatusStart" parameterType="com.road.quzhibathhousemqtt.dto.OrderStartDTO">
+		UPDATE tbathbooking_${projectId}
+		set status=#{bookStatus}
+		WHERE accid=#{accountId} AND  status =0 and orderid = #{itemId}
+	</update>
+
+    <!-- 订单开始（6A）更新预约表状态为使用结束 -->
+    <update id="updateBathBookingStatusEnd" parameterType="com.road.quzhibathhousemqtt.dto.OrderStartDTO">
+		UPDATE tbathbooking_${projectId}
+		set status=#{bookStatus}, isoverbymanual = 0
+		WHERE accid=#{accountId} and orderid = #{itemId} AND ( status =3 OR (status =4 and isoverbymanual = 1))
+	</update>
+    <!-- 订单开始（6A）更新水表状态为正在使用 -->
+    <update id="updateBathWaterStatus" parameterType="com.road.quzhibathhousemqtt.dto.OrderStartDTO">
+		UPDATE tbathroomrwater_${projectId}
+		set status=#{waterStatus}
+		WHERE waterno=#{waterId} AND sncode=#{addr}
+	</update>
+
+
+    <!-- 查询普通用户余额 -->
+    <select id="getAccountBalance" resultType="com.road.quzhibathhousemqtt.dto.BalanceDTO">
+		SELECT
+			realAccMoney,givenAccMoney
+		FROM `taccount_${projectId}`
+		WHERE AccId=#{accountId}
+	</select>
+    <!-- 查询管理员用户余额 -->
+    <select id="getAccountBalanceOperator" resultType="com.road.quzhibathhousemqtt.dto.BalanceDTO">
+		SELECT
+			realAccMoney,givenAccMoney
+		FROM `taccount_op`
+		WHERE AccId=#{accountId}
+	</select>
+
+    <!-- 更新普通用户余额 -->
+    <update id="updateAccountMoney" parameterType="com.road.quzhibathhousemqtt.dto.UploadOrderDTO">
+		UPDATE `taccount_${projectId}`
+		SET RealAccMoney=#{upLeadMoneyReal},GivenAccMoney=#{upLeadMoneyGiven},LastXFDT=#{endTime}
+		WHERE AccId=#{accountId}
+	</update>
+    <!-- 更新管理员用户余额 -->
+    <update id="updateOperatorMoney" parameterType="com.road.quzhibathhousemqtt.dto.UploadOrderDTO">
+		UPDATE `taccount_op`
+		SET RealAccMoney=#{upLeadMoneyReal},GivenAccMoney=#{upLeadMoneyGiven},LastXFDT=#{endTime}
+		WHERE AccId=#{accountId}
+	</update>
+
+    <!--（订单结束）上传交易数据（6B） -->
+    <update id="updateConsumeData" parameterType="com.road.quzhibathhousemqtt.dto.UploadOrderDTO">
+		UPDATE `tconsumedata_${projectId}` SET
+			UpStatusID = 1,
+			kfmode = 1,
+			BefMoneyReal = #{realAccMoney},
+			BefMoneyGiven = #{givenAccMoney},
+			PerMoneyReal = #{perMoneyReal},
+			PerMoneyGiven = #{perMoneyGiven},
+			PerMoney = 0,
+			UpMoney= #{amount},
+			UpLeadMoney= #{upLeadMoney},
+			UpLeadMoneyReal= #{upLeadMoneyReal},
+			UpLeadMoneyGiven= #{upLeadMoneyGiven},
+			BeginDT= #{startTime},
+			UpDT= #{endTime},
+			PluseNum= #{pulseNum},
+			FlowRate= #{flowRate},
+			UseTime= #{useTime},
+			PauseCnt= #{pauseCnt},
+			ErrCode= #{errorState}
+		WHERE ConsumeDT = #{orderId} AND AccID = #{accountId}
+	</update>
+
+    <!-- 主动获取订单（6C）-->
+    <select id="getOrderByReservationCode" resultType="Map">
+		SELECT
+			a.ConsumeDT,
+			a.accid,
+			a.bookdura,
+			b.RealAccMoney,
+			b.GivenAccMoney
+		FROM
+			`tbathbooking_${projectId}` a
+		INNER JOIN taccount_${projectId} b ON a.accid = b.AccID
+		WHERE
+			a.bookingcode = ${reservationCode}
+	</select>
+
+
+    <!-- 取消预约码（66）更新预约表状态 -->
+    <update id="cancelCode" parameterType="com.road.quzhibathhousemqtt.dto.OrderStartDTO">
+		UPDATE tbathbooking_${projectId}
+		set status=#{bookStatus}
+		WHERE accid=#{accountId}  AND (status = 0 OR status = -1)  and orderid = #{itemId}
+</update>
+
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road.quzhibathhousemqtt.dao.RateDao">
+
+
+
+    <!-- 根据小类查询费率 -->
+    <select id="getRateInfo" resultType="com.road.quzhibathhousemqtt.entity.RateType">
+		SELECT
+		  devTypeID deviceType,
+		  devTypeName name,
+		  chargeMethod usrMode,
+		  minChargeUnit unit,
+		  autoDisConTime timeOut,
+		  MinMoney maxConsume,
+		  rate1 rate,
+		  devBigTypeID deviceBigType,
+		  bathParamVersion rateVersion
+		FROM tratetype_${projectId}
+		WHERE devTypeID = #{typeId}
+	</select>
+
+
+
+</mapper>

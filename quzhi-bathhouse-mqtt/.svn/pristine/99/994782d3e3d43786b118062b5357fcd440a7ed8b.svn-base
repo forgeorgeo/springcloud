@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road.quzhibathhousemqtt.dao.AccountDao">
+
+
+    <!-- 根据澡堂码获取用户信息 -->
+    <select id="getAccountByBathCode" resultType="com.road.quzhibathhousemqtt.entity.Account">
+		SELECT
+		  accid accountId,
+		  AccTypeID accountTypeId,
+		  AccStatusID statusId,
+		  RealAccMoney realMoney,
+		  GivenAccMoney givenMoney,
+		  isbathpasswd isBathPassword,
+		  bathpasswd bathPassword
+		FROM taccount_${projectId}
+		WHERE bathpasswd = #{bathPassword} and AccStatusID =0
+	</select>
+
+	<select id="getAccountById" resultType="com.road.quzhibathhousemqtt.entity.Account">
+		SELECT
+		  accid accountId,
+		  AccTypeID accountTypeId,
+		  AccStatusID statusId,
+		  RealAccMoney realMoney,
+		  GivenAccMoney givenMoney,
+		  isbathpasswd isBathPassword,
+		  bathpasswd bathPassword
+		FROM taccount_${projectId}
+		WHERE accid = #{accountId}
+	</select>
+
+	<update id="updateAccountMoney" >
+			UPDATE taccount_${projectId}
+			 SET
+			realAccMoney = #{realMoney},
+			givenAccMoney=#{givenMoney}
+		WHERE accID=#{accountId}
+	</update>
+
+    <!-- 获取项目信息 -->
+    <select id="getProjectInfo" resultType="com.road.quzhibathhousemqtt.entity.ProjectInfo">
+		SELECT
+		  PrjID projectId,
+		  PrjName name,
+		  isBathBooking
+		FROM tprjinfo
+		WHERE PrjID = #{projectId}
+	</select>
+
+
+</mapper>

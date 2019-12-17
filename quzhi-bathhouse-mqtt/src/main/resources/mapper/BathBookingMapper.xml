@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road.quzhibathhousemqtt.dao.BathBookingDao">
+
+
+
+    <!-- 根据澡堂 accountId 查询有效预约  -->
+    <select id="getBookingByStop" resultType="com.road.quzhibathhousemqtt.entity.BathBooking">
+		SELECT
+		  bookId,
+		  bathroomId,
+		  accid accountId,
+		  bookdura  bookDuration ,
+		  status,
+		  ConsumeDT consumeTime,
+		  orderId
+		FROM tbathbooking_${projectId}
+		WHERE bathroomId = #{bathroomId}
+			and accid =#{accountId}
+			and status =0
+			and orderstopdt &gt; now()
+		limit 1
+	</select>
+
+	<!-- 把预约状态改为预约中 -->
+	<update id="updateStopTimeAndStatus" >
+			UPDATE `tbathbooking_${projectId}`
+			SET
+				status = 0,
+				ConsumeDT="",
+				orderId =""
+			WHERE bathroomId=#{bathroomId} and  accid = #{accountId}
+			and orderId = #{orderId}
+	</update>
+
+
+	<!-- 订单开始 修改订单开始状态并且 存入订单号 -->
+	<update id="updateOrderStart" >
+			UPDATE `tbathbooking_${projectId}`
+			SET
+				status = 3,
+				ConsumeDT=#{consumeTime},
+				orderId =#{orderId}
+			WHERE bathroomId=#{bathroomId}
+			 and  accid = #{accountId}
+			 and status =0
+			and orderstopdt &gt;= now()
+
+	</update>
+
+	<update id="updateEndStatus" >
+			UPDATE `tbathbooking_${projectId}`
+			SET
+				status = 4
+			WHERE orderId=#{orderId}
+			 and  accid = #{accountId}
+	</update>
+
+
+</mapper>
